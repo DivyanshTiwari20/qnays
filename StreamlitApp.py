@@ -1,39 +1,56 @@
 import streamlit as st
 
-try:
-    from QAWithPDF.data_ingestion import load_data
-    from QAWithPDF.embedding import download_gemini_embedding
-    from QAWithPDF.model_api import load_model
-    from llama_index.embeddings.gemini import GeminiEmbedding  # Changed from llama_index.embeddings.gemini
-except ImportError as e:
-    st.error(f"Import Error: {str(e)}")
-    st.error("Installing required packages...")
-    import subprocess
-    import sys
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-    st.experimental_rerun()
-def main():
+def install_requirements():
     try:
-        st.set_page_config("Q&A with Documents")
+        import subprocess
+        import sys
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+        st.rerun()  # Use st.rerun() instead of experimental_rerun()
+    except Exception as e:
+        st.error(f"Failed to install requirements: {str(e)}")
+
+def load_dependencies():
+    try:
+        from QAWithPDF.data_ingestion import load_data
+        from QAWithPDF.embedding import download_gemini_embedding
+        from QAWithPDF.model_api import load_model
+        from llama_index.embeddings.gemini import GeminiEmbedding
+        return True
+    except ImportError as e:
+        st.error(f"Import Error: {str(e)}")
+        st.error("Installing required packages...")
+        install_requirements()
+        return False
+
+def main():
+    if not load_dependencies():
+        return
+
+    try:
+        st.set_page_config(page_title="Q&A with Documents")
         
-        doc=st.file_uploader("upload your document")
+        st.title("Q&A with Documents (Information Retrieval)")
         
-        st.header("QA with Documents(Information Retrieval)")
+        doc = st.file_uploader("Upload your document", type=['pdf', 'txt'])  # Added file type restriction
         
-        user_question= st.text_input("Ask your question")
+        user_question = st.text_input("Ask your question")
         
-        if st.button("submit & process"):
+        if doc is not None and user_question and st.button("Submit & Process"):
             with st.spinner("Processing..."):
-                document=load_data(doc)
-                model=load_model()
-                query_engine=download_gemini_embedding(model,document)
+                from QAWithPDF.data_ingestion import load_data
+                from QAWithPDF.embedding import download_gemini_embedding
+                from QAWithPDF.model_api import load_model
+                
+                document = load_data(doc)
+                model = load_model()
+                query_engine = download_gemini_embedding(model, document)
                     
                 response = query_engine.query(user_question)
-                    
                 st.write(response.response)
+                
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
+        st.exception(e)  # This will show the full traceback in the app
                 
-if __name__=="__main__":
-    main()          
-                
+if __name__ == "__main__":
+    main()

@@ -6,3 +6,7 @@ pypdf==3.17.1
 python-dotenv==1.0.0
 streamlit==1.29.0
 
+streamlit
+llama-index
+ipython
+# Add other required packages
