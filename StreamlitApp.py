@@ -4,7 +4,7 @@ try:
     from QAWithPDF.data_ingestion import load_data
     from QAWithPDF.embedding import download_gemini_embedding
     from QAWithPDF.model_api import load_model
-    from llama_index.embeddings.gemini import GeminiEmbedding
+    from llama_index.embeddings.gemini import GeminiEmbedding  # Changed from llama_index.embeddings.gemini
 except ImportError as e:
     st.error(f"Import Error: {str(e)}")
     st.error("Installing required packages...")
@@ -12,7 +12,6 @@ except ImportError as e:
     import sys
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
     st.experimental_rerun()
-    
 def main():
     try:
         st.set_page_config("Q&A with Documents")
