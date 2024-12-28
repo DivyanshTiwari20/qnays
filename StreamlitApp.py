@@ -1,5 +1,5 @@
 import streamlit as st
-from QAWithPDF.data_ingestion import load_data
+# from QAWithPDF.data_ingestion import load_data
 from QAWithPDF.embedding import download_gemini_embedding
 from QAWithPDF.model_api import load_model
 from llama_index.embeddings.gemini import GeminiEmbedding
@@ -9,7 +9,7 @@ def main():
     
     doc=st.file_uploader("upload your document")
     
-    st.header("QA with Documents(Information Retrieval)")
+    st.header("Q&A with Documents(Information Retrieval)")
     
     user_question= st.text_input("Ask your question")
     
