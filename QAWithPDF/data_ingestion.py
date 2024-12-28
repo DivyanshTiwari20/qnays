@@ -19,7 +19,7 @@ def load_data(uploaded_file):
         logging.info("Data loading started...")
         
         if uploaded_file is None:
-            raise customexception("No file was uploaded", sys)
+            raise ValueError("No file was uploaded")
             
         # Create a temporary directory to store the uploaded file
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -27,6 +27,9 @@ def load_data(uploaded_file):
             
             # Get the file extension
             file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+            if file_extension not in ['.pdf', '.txt']:
+                raise ValueError(f"Unsupported file type: {file_extension}")
+                
             temp_file_path = os.path.join(temp_dir, f"uploaded_file{file_extension}")
             
             # Save the uploaded file to temporary directory
@@ -35,13 +38,20 @@ def load_data(uploaded_file):
             logging.info(f"Saved uploaded file to: {temp_file_path}")
             
             # Load the document using SimpleDirectoryReader
-            documents = SimpleDirectoryReader(
-                input_files=[temp_file_path]
-            ).load_data()
-            
-            logging.info("Data loading completed successfully")
-            return documents
+            try:
+                documents = SimpleDirectoryReader(
+                    input_files=[temp_file_path]
+                ).load_data()
+                
+                if not documents:
+                    raise ValueError("No content could be extracted from the file")
+                    
+                logging.info("Data loading completed successfully")
+                return documents
+                
+            except ImportError as e:
+                raise ImportError("Please install llama-index-readers-file package: pip install llama-index-readers-file")
 
     except Exception as e:
         logging.error(f"Exception in loading data: {str(e)}")
-        raise customexception(e, sys)
+        raise customexception(str(e), sys)
