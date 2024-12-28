@@ -1,16 +1,21 @@
 import streamlit as st
+from setup_nltk import setup_nltk
 
 def install_requirements():
     try:
         import subprocess
         import sys
         subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-        st.rerun()  # Use st.rerun() instead of experimental_rerun()
+        st.rerun()
     except Exception as e:
         st.error(f"Failed to install requirements: {str(e)}")
 
 def load_dependencies():
     try:
+        # Set up NLTK first
+        if not setup_nltk():
+            return False
+            
         from QAWithPDF.data_ingestion import load_data
         from QAWithPDF.embedding import download_gemini_embedding
         from QAWithPDF.model_api import load_model
@@ -31,7 +36,7 @@ def main():
         
         st.title("Q&A with Documents (Information Retrieval)")
         
-        doc = st.file_uploader("Upload your document", type=['pdf', 'txt'])  # Added file type restriction
+        doc = st.file_uploader("Upload your document", type=['pdf', 'txt'])
         
         user_question = st.text_input("Ask your question")
         
@@ -50,7 +55,7 @@ def main():
                 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        st.exception(e)  # This will show the full traceback in the app
+        st.exception(e)
                 
 if __name__ == "__main__":
     main()
