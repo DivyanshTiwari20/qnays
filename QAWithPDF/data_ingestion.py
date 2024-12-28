@@ -1,4 +1,4 @@
-from llama_index.core import SimpleDirectoryReader
+from llama_index import SimpleDirectoryReader  # Use this instead of llama_index.core
 import sys
 from exception import customexception
 from logger import logging
