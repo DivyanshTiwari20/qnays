@@ -46,7 +46,7 @@ def main():
                 from QAWithPDF.embedding import download_gemini_embedding
                 from QAWithPDF.model_api import load_model
                 
-                document = reader.load_data(doc)
+                document = load_data(doc)
                 model = load_model()
                 query_engine = download_gemini_embedding(model, document)
                     
