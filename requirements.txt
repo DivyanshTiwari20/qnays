@@ -1,12 +1,13 @@
-llama-index-core==0.9.48
+# Core dependencies
+llama-index-core>=0.10.11.post1,<0.11.0
 llama-index-llms-gemini==0.1.4
 llama-index-embeddings-gemini==0.1.4
 google-generativeai==0.3.2
 pypdf==3.17.1
 python-dotenv==1.0.0
-streamlit==1.29.0
-
-streamlit
-llama-index
+streamlit>=1.29.0
 ipython
-# Add other required packages
+
+# Optional dependencies
+typing-extensions>=4.5.0
+numpy>=1.22.0
