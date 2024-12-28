@@ -6,13 +6,6 @@ from logger import logging
 import tempfile
 
 def load_data(uploaded_file):
-    """
-    Load document from Streamlit uploaded file.
-    Args:
-        uploaded_file: StreamlitUploadedFile object
-    Returns:
-        documents: List of documents
-    """
     try:
         if uploaded_file is None:
             raise ValueError("No file uploaded")
@@ -25,10 +18,13 @@ def load_data(uploaded_file):
         # Create temp directory
         temp_dir = tempfile.mkdtemp()
         temp_file_path = os.path.join(temp_dir, uploaded_file.name)
-            
+        
         # Save file
         with open(temp_file_path, 'wb') as f:
             f.write(uploaded_file.getbuffer())
+            
+        # Debug point
+        logging.info(f"Saved uploaded file to {temp_file_path}")
             
         # Load document
         reader = SimpleDirectoryReader(input_files=[temp_file_path])
@@ -44,4 +40,5 @@ def load_data(uploaded_file):
         return documents
         
     except Exception as e:
+        logging.error(f"Error loading data: {str(e)}")
         raise customexception(str(e), sys)
