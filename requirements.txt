@@ -1,7 +1,15 @@
-llama-index-core==0.9.48
-llama-index-llms-gemini==0.1.4
-llama-index-embeddings-gemini==0.1.4
-google-generativeai==0.3.2
-pypdf==3.17.1
-python-dotenv==1.0.0
-streamlit==1.29.0
+# llama-index-core==0.9.48
+# llama-index-llms-gemini==0.1.4
+# llama-index-embeddings-gemini==0.1.4
+# google-generativeai==0.3.2
+# pypdf==3.17.1
+# python-dotenv==1.0.0
+# streamlit==1.29.0
+
+llama-index-core
+llama-index-llms-gemini
+llama-index-embeddings-gemini
+google-generativeai
+pypdf
+python-dotenv
+streamlit
