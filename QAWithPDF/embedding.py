@@ -15,7 +15,7 @@ def download_gemini_embedding(model, document):
     try:
         logging.info("Initializing Gemini embedding model")
         gemini_embed_model = GeminiEmbedding(
-            model_name="models/text-embedding-004",  # ← updated, embedding-001 is deprecated
+            model_name="text-embedding-004",  # ← updated, embedding-001 is deprecated
             api_key=GOOGLE_API_KEY
         )
 
