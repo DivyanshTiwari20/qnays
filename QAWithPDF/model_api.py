@@ -22,7 +22,7 @@ def load_model():
         logging.info("Loading Gemini model...")
         model = Gemini(
             api_key=GOOGLE_API_KEY,
-            model_name="models/gemini-1.5-flash"  # ← updated, gemini-1.0-pro is deprecated
+            model_name="gemini-1.5-flash"  # ← updated, gemini-1.0-pro is deprecated
         )
         logging.info("Gemini model loaded successfully")
         return model
