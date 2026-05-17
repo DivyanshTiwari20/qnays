@@ -22,15 +22,15 @@ class DirectGeminiEmbedding(BaseEmbedding):
 
     def _embed(self, text: str) -> List[float]:
         url = (
-            "https://generativelanguage.googleapis.com/v1/models/"
-            "text-embedding-004:embedContent"
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            "gemini-embedding-001:embedContent"
         )
         headers = {
             "Content-Type": "application/json",
             "x-goog-api-key": self.api_key,
         }
         body = {
-            "model": "models/text-embedding-004",
+            "model": "models/gemini-embedding-001",
             "content": {"parts": [{"text": text}]},
         }
         resp = requests.post(url, headers=headers, json=body)
